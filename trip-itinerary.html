@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13 Days: Göteborg, Oslo, Preikestolen &amp; Iceland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;1,9..144,500&family=Noto+Serif+SC:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F3F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #ECF1EF;
+    --text: #16232A;
+    --muted: #5A6C71;
+    --line: #D7E1DE;
+    --sweden: #B4842A;
+    --sweden-soft: #F1E4C7;
+    --norway: #22867D;
+    --norway-soft: #D9EEEA;
+    --iceland: #5661AB;
+    --iceland-soft: #E4E5F5;
+    --shadow: 0 1px 2px rgba(20,30,30,0.06);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #10161A;
+      --surface: #171F24;
+      --surface-2: #1D262B;
+      --text: #ECEFEE;
+      --muted: #93A3A6;
+      --line: #2A3439;
+      --sweden: #E4B860;
+      --sweden-soft: #2E2716;
+      --norway: #4FC0B4;
+      --norway-soft: #163430;
+      --iceland: #9AA6E6;
+      --iceland-soft: #23274A;
+      --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #10161A;
+    --surface: #171F24;
+    --surface-2: #1D262B;
+    --text: #ECEFEE;
+    --muted: #93A3A6;
+    --line: #2A3439;
+    --sweden: #E4B860;
+    --sweden-soft: #2E2716;
+    --norway: #4FC0B4;
+    --norway-soft: #163430;
+    --iceland: #9AA6E6;
+    --iceland-soft: #23274A;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .wrap{
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  a { color: inherit; }
+
+  /* Hero */
+  .hero{
+    padding: 56px 0 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .lang-toggle{
+    position: absolute;
+    top: 56px;
+    right: 0;
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+  .lang-toggle button{
+    border: none;
+    background: var(--surface);
+    color: var(--muted);
+    padding: 6px 13px;
+    cursor: pointer;
+    font: inherit;
+  }
+  .lang-toggle button.active{
+    background: var(--text);
+    color: var(--bg);
+  }
+  .hero .kicker{
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+    padding-right: 100px;
+  }
+  .hero h1{
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-weight: 560;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1.22;
+    margin: 0 0 14px;
+    padding-right: 90px;
+  }
+  .route{
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .legend{
+    display:flex;
+    gap: 18px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  .legend span{
+    display:inline-flex;
+    align-items:center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+
+  /* Sticky day nav */
+  .daynav{
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+    padding: 10px 0;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .daynav::-webkit-scrollbar{ display:none; }
+  .daynav a{
+    flex: 0 0 auto;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--muted);
+    background: var(--surface);
+    transition: border-color .15s, color .15s;
+  }
+  .daynav a.active{
+    color: var(--text);
+    border-color: currentColor;
+  }
+
+  /* Day sections */
+  .day{
+    padding: 34px 0 8px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 56px;
+  }
+  .day:last-of-type{ border-bottom: none; }
+  .day-head{
+    display:flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .day-num{
+    font-family:'Fraunces', 'Noto Serif SC', serif;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .day-date{
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .day-title{
+    font-family: 'Fraunces', 'Noto Serif SC', serif;
+    font-weight: 560;
+    font-size: 24px;
+    margin: 4px 0 6px;
+  }
+  .leg-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px 3px 8px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .events{
+    display:flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 2px solid var(--line);
+    margin-left: 6px;
+    padding-left: 22px;
+  }
+  .event{
+    position: relative;
+    padding: 12px 0;
+    display:flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .event::before{
+    content:"";
+    position:absolute;
+    left: -27px;
+    top: 19px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--leg-color, var(--muted));
+    border: 2px solid var(--bg);
+  }
+  .event .icon{
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: var(--surface-2);
+    color: var(--leg-color, var(--muted));
+  }
+  .event .icon svg{ width:16px; height:16px; }
+  .event .body{ padding-top: 3px; }
+  .event .time{
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--text);
+    margin-right: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .event .desc{
+    font-size: 14.5px;
+    color: var(--text);
+  }
+  .event .sub{
+    display:block;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  footer{
+    text-align:center;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 40px;
+  }
+
+  @media (max-width: 480px){
+    .hero{ padding-top: 40px; }
+    .wrap{ padding: 0 16px 60px; }
+    .lang-toggle{ top: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="lang-toggle" id="langToggle">
+      <button data-lang="en">EN</button>
+      <button data-lang="zh">中文</button>
+    </div>
+    <div class="kicker" id="t-kicker"></div>
+    <h1 id="t-h1"></h1>
+    <p class="route" id="t-route"></p>
+    <div class="legend" id="t-legend"></div>
+  </div>
+
+  <nav class="daynav" id="daynav"></nav>
+
+  <div id="days"></div>
+
+  <footer id="t-footer"></footer>
+</div>
+
+<script>
+const LEG = {
+  se: { color: 'var(--sweden)', soft: 'var(--sweden-soft)', en:'Sweden', zh:'瑞典' },
+  no: { color: 'var(--norway)', soft: 'var(--norway-soft)', en:'Norway', zh:'挪威' },
+  is: { color: 'var(--iceland)', soft: 'var(--iceland-soft)', en:'Iceland', zh:'冰岛' },
+};
+
+const ICONS = {
+  plane: '<path d="M2 12l19-8-6 8 6 8-19-8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  bus: '<rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="18.5" r="1.4" fill="currentColor"/><circle cx="16.5" cy="18.5" r="1.4" fill="currentColor"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.4"/>',
+  car: '<path d="M4 16l1.5-5.5a2 2 0 0 1 1.9-1.5h9.2a2 2 0 0 1 1.9 1.5L20 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="2.5" y="16" width="19" height="4" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="20" r="1.3" fill="currentColor"/><circle cx="17" cy="20" r="1.3" fill="currentColor"/>',
+  taxi: '<path d="M4 16l1.5-5.5a2 2 0 0 1 1.9-1.5h9.2a2 2 0 0 1 1.9 1.5L20 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="2.5" y="16" width="19" height="4" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="20" r="1.3" fill="currentColor"/><circle cx="17" cy="20" r="1.3" fill="currentColor"/><rect x="9.5" y="6.5" width="5" height="2.4" rx="0.6" fill="currentColor"/>',
+  hike: '<circle cx="14.5" cy="4.5" r="1.6" fill="currentColor"/><path d="M9 21l2.2-6 2-2.2-1-3.3-3 1.4M13.2 12.8l3 1.6 1.8 4.6M11.2 12.8L7 15.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  food: '<path d="M6 3v8a2.5 2.5 0 0 0 5 0V3M8.5 3v6M6 3v6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 3s-2 2-2 5 2 3 2 3v10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  drink: '<path d="M5 4h14l-2 7a5 5 0 0 1-10 0L5 4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="20" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="20" x2="16" y2="20" stroke="currentColor" stroke-width="1.5"/>',
+  heart: '<path d="M12 20s-7.5-4.8-9.7-9.4C.8 7.2 2.5 4 6 4c2 0 3.4 1.2 4 2.4C10.6 5.2 12 4 14 4c3.5 0 5.2 3.2 3.7 6.6C19.5 15.2 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  walk: '<circle cx="13" cy="4" r="1.6" fill="currentColor"/><path d="M10 21l1.6-5 2-1.6-.6-3.6-3 1.2M13.4 11.4l2.8 1.4 1.6 4.6M11.4 11.4L7.6 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  camera: '<rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7l1.2-2.5h5.6L16 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+  home: '<path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  key: '<rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 12h8M8 9h5M8 15h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+  compass: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15 9l-2 5-5 2 2-5 5-2z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
+  sofa: '<path d="M4 12v6M20 12v6M4 18h16M5 12V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3M7 12v3M17 12v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  bag: '<rect x="3" y="14" width="18" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 14V6a3 3 0 0 1 6 0v8" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+};
+
+function icon(name){ return `<svg viewBox="0 0 24 24">${ICONS[name] || ICONS.compass}</svg>`; }
+
+function ev(time, en, zh, iconName, subEn, subZh){
+  return { time, en, zh, icon: iconName, subEn: subEn||'', subZh: subZh||'' };
+}
+
+const DATA = [
+  { date: [2026,10,8], leg:'se', en:'Arrival', zh:'抵达', events:[
+    ev('21:00','Shan Jun arrives at Landvetter','Shan Jun 抵达兰德维特机场','plane')
+  ]},
+  { date: [2026,10,9], leg:'se', en:'City walk', zh:'市内漫步', events:[
+    ev('12:00','Eat at a kebab restaurant','在烤肉店用餐','food'),
+    ev('Afternoon','Stroll around Haga','在哈加区散步','walk'),
+    ev('18:00','Eat at home and have some drinks','在家用餐,喝点小酒','drink')
+  ]},
+  { date: [2026,10,10], leg:'se', en:'Wedding day', zh:'婚礼日', events:[
+    ev('11:00','Eat at a Vietnamese restaurant','在越南餐厅用餐','food'),
+    ev('13:00','Marriage ceremony','婚礼仪式','heart'),
+    ev('18:00','Eat together and drink some more','一起用餐,继续喝一点','drink')
+  ]},
+  { date: [2026,10,11], leg:'no', en:'Towards Oslo', zh:'前往奥斯陆', events:[
+    ev('06:45','Taxi to Göteborg Centralstation','乘出租车去哥德堡中央车站','taxi'),
+    ev('07:45','Bus to Oslo','乘巴士去奥斯陆','bus','About 3.5 hours','约3.5小时'),
+    ev('11:15','Arriving at Oslo Centralstation','抵达奥斯陆中央车站','bus'),
+    ev('12:00','Pick up rental car, drive for Stavanger','取租车,驱车前往斯塔万格','car'),
+    ev('18:00','Cook food outside with the stove','在户外用炉具做饭','food'),
+    ev('20:00','Arriving near Preikestolen, staying in a small wooden house','抵达布道石附近,住在小木屋','home')
+  ]},
+  { date: [2026,10,12], leg:'no', en:'Preikestolen', zh:'布道石', events:[
+    ev('07:00','Hike Preikestolen','徒步布道石','hike','Round trip about 4 hours','往返约4小时'),
+    ev('11:00','Finish the hike, back at the car','结束徒步,回到车上','hike'),
+    ev('11:30','Drive to nearby Lysebotn for photos','驱车前往附近的吕瑟博滕拍照','camera'),
+    ev('12:30','Drive to Svene for the night','驱车前往斯韦讷过夜','car','About 5 hours','约5小时')
+  ]},
+  { date: [2026,10,13], leg:'no', en:'Ride to the airport for Iceland', zh:'前往机场,飞往冰岛', events:[
+    ev('10:00','Check out, leave for the airport','退房,前往机场','key'),
+    ev('13:00','Arriving at Oslo Airport','抵达奥斯陆机场','car'),
+    ev('16:00','Flight takes off for Iceland','飞往冰岛的航班起飞','plane'),
+    ev('18:00','Flight arrives in Reykjavík','航班抵达雷克雅未克','plane')
+  ]},
+  { date: [2026,10,14], leg:'is', en:'South Iceland exploration', zh:'冰岛南部探索', events:[
+    ev('19:00','Drive east','驱车向东','car')
+  ]},
+  { date: [2026,10,15], leg:'is', en:'East Iceland exploration', zh:'冰岛东部探索', events:[
+    ev('19:00','Drive north','驱车向北','car')
+  ]},
+  { date: [2026,10,16], leg:'is', en:'North Iceland exploration', zh:'冰岛北部探索', events:[
+    ev('19:00','Drive west','驱车向西','car')
+  ]},
+  { date: [2026,10,17], leg:'is', en:'West Iceland exploration', zh:'冰岛西部探索', events:[
+    ev('19:00','Drive back near the airport hotel','驱车返回机场附近的酒店','car')
+  ]},
+  { date: [2026,10,18], leg:'is', en:'Fly back to Göteborg', zh:'飞回哥德堡', events:[]},
+  { date: [2026,10,19], leg:'se', en:'Chill out', zh:'放松休息', events:[
+    ev('','Small family dinner','小型家庭晚餐','sofa')
+  ]},
+  { date: [2026,10,20], leg:'se', en:'Time to go home', zh:'回家的时间', events:[]},
+];
+
+const T = {
+  en: {
+    kicker: 'Travel planner · 13 days',
+    h1: 'Wedding, fjords & the ring road',
+    route: 'Göteborg → Oslo → Stavanger → Preikestolen → Reykjavík → Göteborg',
+    footer: '8–20 October · times as planned, subject to weather & roads',
+    noplan: 'No fixed plan yet',
+    day: 'Day',
+    wd: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    dateFmt: (wd,d) => `${wd} ${d} Oct`
+  },
+  zh: {
+    kicker: '旅行计划 · 共13天',
+    h1: '婚礼、峡湾与环岛之旅',
+    route: '哥德堡 → 奥斯陆 → 斯塔万格 → 布道石 → 雷克雅未克 → 哥德堡',
+    footer: '10月8日–20日 · 时间为计划安排,可能因天气和路况调整',
+    noplan: '尚无具体安排',
+    day: '第',
+    wd: ['周日','周一','周二','周三','周四','周五','周六'],
+    dateFmt: (wd,d) => `10月${d}日 ${wd}`
+  }
+};
+
+let lang = 'en';
+
+const daysEl = document.getElementById('days');
+const navEl = document.getElementById('daynav');
+
+function render(){
+  const t = T[lang];
+
+  document.getElementById('t-kicker').textContent = t.kicker;
+  document.getElementById('t-h1').textContent = t.h1;
+  document.getElementById('t-route').textContent = t.route;
+  document.getElementById('t-footer').textContent = t.footer;
+
+  const legendEl = document.getElementById('t-legend');
+  legendEl.innerHTML = Object.values(LEG).map(l =>
+    `<span><span class="dot" style="background:${l.color}"></span>${l[lang]}</span>`
+  ).join('');
+
+  document.querySelectorAll('#langToggle button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+
+  navEl.innerHTML = '';
+  daysEl.innerHTML = '';
+
+  DATA.forEach((day, i) => {
+    const n = i+1;
+    const leg = LEG[day.leg];
+    const id = `day-${n}`;
+
+    const navA = document.createElement('a');
+    navA.href = `#${id}`;
+    navA.textContent = `${n}`;
+    navA.style.color = leg.color;
+    navEl.appendChild(navA);
+
+    const section = document.createElement('section');
+    section.className = 'day';
+    section.id = id;
+
+    const eventsHtml = day.events.map(e => `
+      <div class="event" style="--leg-color:${leg.color}">
+        <div class="icon">${icon(e.icon)}</div>
+        <div class="body">
+          <span class="time">${e.time}</span><span class="desc">${e[lang]}</span>
+          ${(lang==='en'?e.subEn:e.subZh) ? `<span class="sub">${lang==='en'?e.subEn:e.subZh}</span>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    const [y,m,d] = day.date;
+    const wd = t.wd[new Date(y,m-1,d).getDay()];
+    const dateLabel = t.dateFmt(wd, d);
+    const dayLabel = lang === 'en' ? `${t.day} ${String(n).padStart(2,'0')}` : `${t.day}${n}天`;
+
+    section.innerHTML = `
+      <div class="day-head">
+        <span class="day-num">${dayLabel}</span>
+        <span class="day-date">${dateLabel}</span>
+      </div>
+      <h2 class="day-title">${day[lang]}</h2>
+      <span class="leg-tag" style="background:${leg.soft}; color:${leg.color}">
+        <span class="dot" style="background:${leg.color}"></span>${leg[lang]}
+      </span>
+      <div class="events">${eventsHtml || `<div class="event"><div class="body"><span class="desc">${t.noplan}</span></div></div>`}</div>
+    `;
+    daysEl.appendChild(section);
+  });
+
+  const navLinks = Array.from(navEl.querySelectorAll('a'));
+  const sections = Array.from(document.querySelectorAll('.day'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const idx = sections.indexOf(entry.target);
+        navLinks.forEach(a=>a.classList.remove('active'));
+        if(navLinks[idx]) navLinks[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s=>io.observe(s));
+}
+
+document.getElementById('langToggle').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  lang = btn.dataset.lang;
+  document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
